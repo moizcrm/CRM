@@ -1,0 +1,29 @@
+function displayBillToAddressName()
+{
+    //Display Person Address options, or Company Address options depending on what's selected in the Entity Type field. 
+
+    var billToCompany = Xrm.Page.data.entity.attributes.get('billtocompany');
+    var billToPerson = Xrm.Page.data.entity.attributes.get('billtoperson');
+    var billToCompanyAddressName = Xrm.Page.data.entity.attributes.get('billtocompanyaddressname');
+    var billToPersonAddressName = Xrm.Page.data.entity.attributes.get('billtopersonaddressname');
+    var billToEntityType = Xrm.Page.data.entity.attributes.get('billtoentitytype');
+    if (billToEntityType.getValue() == 100000000)
+    {//Company
+        Xrm.Page.getControl('billtocompanyaddressname').setVisible(true);
+        Xrm.Page.getControl('billtopersonaddressname').setVisible(false);
+        //Xrm.Page.getAttribute('billtopersonaddressname').setValue(null);
+    }
+    else if (billToEntityType.getValue() == 100000001)
+    {//Person
+        Xrm.Page.getControl('billtocompanyaddressname').setVisible(false);
+        //Xrm.Page.getAttribute('billtocompanyaddressname').setValue(null);
+        Xrm.Page.getControl('billtopersonaddressname').setVisible(true);
+    }
+    else
+    {
+        Xrm.Page.getControl('billtocompanyaddressname').setVisible(false);
+        //Xrm.Page.getAttribute('billtocompanyaddressname').setValue(null);
+        Xrm.Page.getControl('billtopersonaddressname').setVisible(false);
+        //Xrm.Page.getAttribute('billtopersonaddressname').setValue(null);
+    }
+}
