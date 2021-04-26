@@ -1,0 +1,36 @@
+function setFieldRequirements()
+{
+    var customerLookup = Xrm.Page.data.entity.attributes.get('customerid');
+    var billToCompany = Xrm.Page.data.entity.attributes.get('billtocompany');
+    var billToPerson = Xrm.Page.data.entity.attributes.get('billtoperson');
+    var shipToCompany = Xrm.Page.data.entity.attributes.get('shiptocompany');
+    var shipToPerson = Xrm.Page.data.entity.attributes.get('shiptoperson');
+    if (customerLookup.getValue() != null)
+    {
+        var customerName = customerLookup.getValue()[0].name;
+        var customerId = customerLookup.getValue()[0].id;
+        var customerEntityType = customerLookup.getValue()[0].entityType;
+
+        if (customerEntityType == 'account')
+        {
+            billToCompany.setRequiredLevel('required');
+            shipToCompany.setRequiredLevel('required');
+            billToPerson.setRequiredLevel('none');
+            shipToPerson.setRequiredLevel('none');
+        }
+        else if (customerEntityType == 'contact')
+        {
+            billToPerson.setRequiredLevel('required');
+            shipToPerson.setRequiredLevel('required');
+            billToCompany.setRequiredLevel('none');
+            shipToCompany.setRequiredLevel('none');
+        }
+    }
+    else
+    {
+        billToCompany.setRequiredLevel('none');
+        shipToCompany.setRequiredLevel('none');
+        billToPerson.setRequiredLevel('none');
+        shipToPerson.setRequiredLevel('none');
+    }
+}
